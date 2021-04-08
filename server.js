@@ -5,7 +5,9 @@ const server = express();
 
 //View Engine
 server.set('view engine', 'ejs');
-server.set(express.static('public'));
+server.use(express.static('public'));
+server.use(express.urlencoded({ extended: false }));
+server.use(express.json());
 
 //Database
 
