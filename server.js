@@ -1,7 +1,8 @@
 const express = require("express");
 const connection = require("./database/database");
 const server = express();
-
+const categoriesController = require("./categories/CategoriesController");
+const articlesController = require("./articles/ArticlesController");
 
 //View Engine
 server.set('view engine', 'ejs');
@@ -16,6 +17,9 @@ connection.authenticate().then(() => {
 }).catch((error) => {
   console.log(`Erro ao se conectar com o Banco de Dados ${erro}`)
 });
+
+server.use("/", categoriesController);
+server.use("/", articlesController);
 
 server.get("/", (request, response) => {
   response.render("index");
