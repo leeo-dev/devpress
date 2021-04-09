@@ -1,0 +1,11 @@
+<%- include("../../partials/header") %>
+<div class="container">
+  <h2 class="mb-3 mt-5">Cadastrar Categoria</h2>
+  <form method="POST" action="/admin/categories/save">
+    <div class="form-group">
+      <label for="category">Categoria</label>
+      <input type="text" class="form-control" id="category" aria-describedby="emailHelp" name="title" placeholder="Ex: JavaScript"></div>
+      <button type="submit" class="btn btn-primary">Salvar Categoria</button>
+    </form>
+  </div>
+  <%- include("../../partials/footer") %>
