@@ -16,12 +16,12 @@
       <% articles.forEach(article => { %>
         <tr>
           <th scope="row"><%= article.id %></th>
-          <td><%= article.body.substring(0, 20) %>...</td>
-          <td><%= article.slug %></td>
           <td><%= article.title %></td>
+          <td><%= article.slug %></td>
+          <td><%= article.category.title %></td>
           <td>
-            <a href="admin/article/edit/<%= article.id %>" class="btn btn-outline-primary">Editar</a>
-            <form style="display: inline;" method="POST" action="/article/delete">
+            <a href="/admin/article/edit/<%= article.id %>" class="btn btn-outline-primary">Editar</a>
+            <form id="deleteArticle" style="display: inline;" method="POST" action="/article/delete">
               <input type="hidden" name="id" value="<%= article.id %>">
                 <input class="btn btn-danger" type="submit" value="Excluir"></form>
               </td>
@@ -31,3 +31,17 @@
       </table>
     </div>
     <%- include("../../partials/footer") %>
+
+    <script>
+      const articles = document.querySelectorAll("#deleteArticle");
+      articles.forEach((article) => {
+        article.addEventListener("submit", (event) => {
+          event.preventDefault();
+          let choose = confirm("Deseja deletar esse artigo?");
+          if (choose) {
+            article.submit();
+          }
+
+        });
+      });
+    </script>

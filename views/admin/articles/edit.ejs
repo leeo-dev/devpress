@@ -1,0 +1,34 @@
+<%- include("../../partials/header") %>
+<div class="container">
+  <h2>Editar Artigo</h2>
+
+  <form method="POST" action="/article/update">
+    <input type="hidden" name="id" value="<%= article.id%>">
+      <div class="form-group">
+        <label for="formControlTitle">Título</label>
+        <input type="text" class="form-control" id="formControlTitle" placeholder="Como criar...." name="title" value="<%= article.title %>"></div>
+
+
+        <div class="form-group">
+          <label for="article">Conteúdo do Post</label>
+          <textarea class="form-control" id="article" rows="3" name="body"><%= article.body %>"></textarea>
+        </div>
+
+        <div class="form-group">
+          <label for="categoria">Categoria</label>
+          <select class="form-control" id="idCategoria" name="categoryId">
+            <% categories.forEach(category => { %>
+              <option <% if (category.id == article.categoryId) { %> selected <% } %> value="<%= category.id %>"><%= category.title %></option>
+            <% }); %>
+          </select>
+        </div>
+        <div class="form-grouup">
+          <button class="btn btn-primary" type="submit">Salvar Artigo</button>
+        </div>
+      </form>
+    </div>
+    <%- include("../../partials/footer") %>
+    <script src="/tinymce/tinymce.min.js"></script>
+    <script>
+      tinymce.init({language: 'pt_BR', selector: '#article', plugins: ['advlist autolink link image lists print preview hr searchreplace wordcount fullscreen insertdatetime media save table paste emoticons']});
+    </script>

@@ -5,7 +5,7 @@ const Category = require("../categories/Category");
 const Article = require("./Article");
 
 router.get("/admin/articles", (request, response) => {
-  Article.findAll().then((articles) => {
+  Article.findAll({ include: [{ model: Category }] }).then((articles) => {
     response.render("admin/articles/index", { articles });
   });
 });
@@ -28,11 +28,30 @@ router.post("/article/save", (request, response) => {
 
 router.post("/article/delete", (request, response) => {
   let id = +request.body.id;
-  if (!isNaN(id)) {
+  if (id != undefined && !isNaN(id)) {
     Article.destroy({ where: { id } })
   }
   response.redirect("/admin/articles");
 });
+
+router.get("/admin/article/edit/:id", (request, response) => {
+  let id = request.params.id;
+  if (!isNaN(id) && id != undefined) {
+    Article.findByPk(id).then((article) => {
+      Category.findAll().then((categories) => {
+        response.render("admin/articles/edit", { article, categories });
+      });
+    });
+  }
+});
+
+router.post("/article/update", (request, response) => {
+  let id = request.body.id;
+  let title = request.body.title;
+  let body = request.body.body;
+  let categoryId = request.body.categoryId;
+  console.log(id);
+})
 
 
 
