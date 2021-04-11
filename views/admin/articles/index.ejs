@@ -1,3 +1,33 @@
 <%- include("../../partials/header") %>
-<div class="container"></div>
-<%- include("../../partials/footer") %>
+<div class="container">
+  <h2>Artigos</h2>
+  <a href="/admin/article/new" class="btn btn-primary mb-3 mt-5">Criar Novo Artigo</a>
+  <table class="table">
+    <thead>
+      <tr>
+        <th scope="col">ID</th>
+        <th scope="col">Artigo</th>
+        <th scope="col">Slug</th>
+        <th scope="col">Categoria</th>
+        <th scope="col">Ações</th>
+      </tr>
+    </thead>
+    <tbody>
+      <% articles.forEach(article => { %>
+        <tr>
+          <th scope="row"><%= article.id %></th>
+          <td><%= article.body.substring(0, 20) %>...</td>
+          <td><%= article.slug %></td>
+          <td><%= article.title %></td>
+          <td>
+            <a href="admin/article/edit/<%= article.id %>" class="btn btn-outline-primary">Editar</a>
+            <form style="display: inline;" method="POST" action="/article/delete">
+              <input type="hidden" name="id" value="<%= article.id %>">
+                <input class="btn btn-danger" type="submit" value="Excluir"></form>
+              </td>
+            </tr>
+          <% }); %>
+        </tbody>
+      </table>
+    </div>
+    <%- include("../../partials/footer") %>

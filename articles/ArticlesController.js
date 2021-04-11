@@ -5,7 +5,9 @@ const Category = require("../categories/Category");
 const Article = require("./Article");
 
 router.get("/admin/articles", (request, response) => {
-  response.render("admin/articles/index");
+  Article.findAll().then((articles) => {
+    response.render("admin/articles/index", { articles });
+  });
 });
 
 
@@ -23,5 +25,15 @@ router.post("/article/save", (request, response) => {
 
   Article.create({ title, body, slug, categoryId }).then(() => { response.redirect("/admin/articles"); });
 });
+
+router.post("/article/delete", (request, response) => {
+  let id = +request.body.id;
+  if (!isNaN(id)) {
+    Article.destroy({ where: { id } })
+  }
+  response.redirect("/admin/articles");
+});
+
+
 
 module.exports = router;
