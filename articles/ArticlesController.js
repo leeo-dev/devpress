@@ -48,9 +48,15 @@ router.get("/admin/article/edit/:id", (request, response) => {
 router.post("/article/update", (request, response) => {
   let id = request.body.id;
   let title = request.body.title;
+  let slug = slugfy(title);
   let body = request.body.body;
   let categoryId = request.body.categoryId;
-  console.log(id);
+
+  Article.update({ title, slug, body, categoryId }, { where: { id } })
+    .then(() => {
+      response.redirect("/admin/articles");
+    });
+
 })
 
 
