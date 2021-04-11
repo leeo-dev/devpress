@@ -22,31 +22,30 @@
           <td><%= category.slug %></td>
           <td>
 
-            <form style="display: inline;" method="POST" action="/categories/edit">
+
+            <a href="/admin/categories/edit/<%= category.id%>" class="btn btn-outline-primary btn-sm" type="submit" value="Edit">Edit</a>
+            <form id="deleteCategory" style="display: inline;" method="POST" action="/categories/delete">
               <input type="hidden" name="id" value="<%= category.id%>">
-                <input class="btn btn-outline-primary btn-sm" type="submit" value="Edit"></form>
-                <form id="deleteCategory" style="display: inline;" method="POST" action="/categories/delete">
-                  <input type="hidden" name="id" value="<%= category.id%>">
-                    <input class="btn btn-danger btn-sm" type="submit" value="Delete"></form>
+              <input class="btn btn-danger btn-sm" type="submit" value="Delete"></form>
 
-                  </td>
-                </tr>
-              <% }); %>
-            </tbody>
-          </table>
+          </td>
+        </tr>
+      <% }); %>
+    </tbody>
+  </table>
 
-        </div>
-        <%- include("../../partials/footer") %>
-        <script>
-          const categories = document.querySelectorAll("#deleteCategory");
-          categories.forEach((category) => {
-            category.addEventListener("submit", (event) => {
-              event.preventDefault();
-              let choose = confirm("Deseja deletar essa categoria?");
-              if (choose) {
-                category.submit();
-              }
+</div>
+<%- include("../../partials/footer") %>
+<script>
+  const categories = document.querySelectorAll("#deleteCategory");
+  categories.forEach((category) => {
+    category.addEventListener("submit", (event) => {
+      event.preventDefault();
+      let choose = confirm("Deseja deletar essa categoria?");
+      if (choose) {
+        category.submit();
+      }
 
-            });
-          });
-        </script>
+    });
+  });
+</script>

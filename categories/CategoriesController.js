@@ -2,6 +2,7 @@ const express = require("express");
 const router = express.Router();
 const Category = require("./Category");
 const slugify = require("slugify");
+const { request } = require("express");
 
 router.get("/admin/categories/new", (request, response) => {
   response.render("admin/categories/new");
@@ -25,6 +26,8 @@ router.get("/admin/categories", (request, response) => {
   });
 });
 
+
+
 router.post("/categories/delete", (request, response) => {
   let id = request.body.id;
   if (id != undefined) {
@@ -36,7 +39,31 @@ router.post("/categories/delete", (request, response) => {
     }
   }
   response.redirect("/admin/categories");
+});
 
+
+router.get("/admin/categories/edit/:id", (request, response) => {
+  let id = request.params.id;
+  Category.findByPk(id).then((category) => {
+    if (category != undefined && !isNaN(id)) {
+      response.render("admin/categories/edit", { category });
+    } else {
+      response.redirect("/admin/categories");
+    }
+  }).catch((error) => {
+    response.redirect("/admin/categories");
+
+  });
+});
+
+router.post("/categories/update", (request, response) => {
+  let id = request.body.id;
+  let title = request.body.title;
+  let slug = slugify(title);
+  Category.update({ title, slug }, { where: { id } })
+    .then(() => {
+      response.redirect("/admin/categories");
+    });
 });
 
 module.exports = router;

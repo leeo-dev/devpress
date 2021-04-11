@@ -1,0 +1,12 @@
+<%- include("../../partials/header") %>
+<div class="container">
+  <h2 class="mb-3 mt-5">Edição de Categoria</h2>
+  <form method="POST" action="/categories/update">
+    <div class="form-group">
+      <label for="category">Categoria</label>
+      <input type="hidden" name="id" value="<%= category.id %>">
+      <input type="text" class="form-control" id="category" aria-describedby="category" name="title" value="<%= category.title %>" placeholder="Ex: JavaScript"></div>
+    <button type="submit" class="btn btn-primary">Atualizar Categoria</button>
+  </form>
+</div>
+<%- include("../../partials/footer") %>
