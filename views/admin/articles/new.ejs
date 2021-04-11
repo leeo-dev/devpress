@@ -1,0 +1,22 @@
+<%- include("../../partials/header") %>
+<div class="container">
+  <h2>Novo Artigo</h2>
+
+  <form>
+    <div class="form-group">
+      <label for="formControlTitle">Título</label>
+      <input type="text" class="form-control" id="formControlTitle" placeholder="Como criar...." name="title">
+    </div>
+
+
+    <div class="form-group">
+      <label for="article">Conteúdo do Post</label>
+      <textarea class="form-control" id="article" rows="3" name="body"></textarea>
+    </div>
+  </form>
+</div>
+<%- include("../../partials/footer") %>
+<script src="/tinymce/tinymce.min.js"></script>
+<script>
+  tinymce.init({language: 'pt_BR', selector: '#article', plugins: ['advlist autolink link image lists print preview hr searchreplace wordcount fullscreen insertdatetime media save table paste emoticons']});
+</script>
