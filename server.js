@@ -25,7 +25,56 @@ server.use("/", categoriesController);
 server.use("/", articlesController);
 
 server.get("/", (request, response) => {
-  response.render("index");
+  Article.findAll({ order: [['createdAt', 'DESC']] }).then((articles) => {
+    Category.findAll().then((categories) => {
+      if (categories != undefined) {
+        response.render("index", { articles, categories });
+      } else {
+        response.redirect("/");
+      }
+    });
+  });
+});
+
+server.get("/:slug", (request, response) => {
+  let slug = request.params.slug;
+  Article.findOne({ where: { slug } })
+    .then((article) => {
+      if (article != undefined) {
+        Category.findAll().then((categories) => {
+          if (categories != undefined) {
+            response.render("article", { article, categories });
+
+          } else {
+            response.redirect("/");
+
+          }
+        });
+      } else {
+        response.redirect("/");
+      }
+    }).catch((error) => {
+      response.redirect("/");
+    });
+});
+
+server.get("/categoria/:slug", (request, response) => {
+  let slug = request.params.slug;
+  Category.findOne({
+
+    where: { slug },
+    include: [{ model: Article }]
+  }).then((category) => {
+    if (category != undefined) {
+      Category.findAll()
+        .then((categories) => {
+          console.log(category.articles)
+          response.render("category", { articles: category.articles, categories });
+        });
+    } else {
+      response.redirect("/");
+    }
+  });
 });
 
 server.listen(3000, () => {
