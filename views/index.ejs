@@ -1,20 +1,28 @@
 <%- include("partials/headerclient") %>
-<div class="container">
-  <div class="jumbotron mt-3">
-    <h1 class="display-4">Bem vindo ao DevPress</h1>
-    <p class="lead">Esse é um simples blog, desenvolvido no curso guia do programador.</p>
-    <hr class="my-4">
-    <p>Feito em Node JS e EJS</p>
-  </div>
-  <% articles.forEach(article => { %>
-    <div class="card mb-3">
-      <div class="card-header">
-        <h4><%= article.title %></h4>
-      </div>
-      <div class="card-body">
-        <a href="/<%= article.slug%>" class="btn btn-primary">Ler mais</a>
-      </div>
+  <div class="container">
+    <div class="jumbotron mt-3">
+      <h1 class="display-4">Bem vindo ao DevPress</h1>
+      <p class="lead">Esse é um simples blog, desenvolvido no curso guia do programador.</p>
+      <hr class="my-4">
+      <p>Feito em Node JS e EJS</p>
     </div>
-  <% }); %>
-</div>
-<%- include("partials/footer") %>
+    <% articles.forEach(article=> { %>
+      <div class="card mb-3">
+        <div class="card-header">
+          <h4>
+            <%= article.title %>
+          </h4>
+        </div>
+        <div class="card-body">
+          <a href="/<%= article.slug%>" class="btn btn-primary">Ler mais</a>
+        </div>
+      </div>
+      <% }); %>
+        <div class="row">
+          <div class="col"> <a style="float: right;" href="/articles/page/2">Next >></a></div>
+          <hr>
+          <hr>
+          <hr>
+        </div>
+  </div>
+  <%- include("partials/footer") %>

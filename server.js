@@ -18,14 +18,14 @@ server.use(express.json());
 connection.authenticate().then(() => {
   console.log("Conexão feita com sucesso!")
 }).catch((error) => {
-  console.log(`Erro ao se conectar com o Banco de Dados ${erro}`)
+  console.log(`Erro ao se conectar com o Banco de Dados ${error}`)
 });
 
 server.use("/", categoriesController);
 server.use("/", articlesController);
 
 server.get("/", (request, response) => {
-  Article.findAll({ order: [['createdAt', 'DESC']] }).then((articles) => {
+  Article.findAll({ order: [['createdAt', 'DESC']], limit: 4 }).then((articles) => {
     Category.findAll().then((categories) => {
       if (categories != undefined) {
         response.render("index", { articles, categories });

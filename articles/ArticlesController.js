@@ -57,7 +57,40 @@ router.post("/article/update", (request, response) => {
       response.redirect("/admin/articles");
     });
 
-})
+});
+
+router.get("/articles/page/:page", (request, response)=>{
+  let page = Number(request.params.page);
+  let offset = 0;
+  const limit = 4;
+  
+  if(isNaN(page) || page == 1){
+    offset = 0;
+  }else{
+  offset = ((limit * page) - limit);
+  }
+
+
+  Article.findAndCountAll({order: [['createdAt', 'DESC']], limit, offset}).then((articles)=>{
+    let next;
+    if(offset + 4 >= articles.count){
+      next = false;
+    }else{
+      next = true;
+    }
+
+    let result = {
+      next, articles, page
+    };
+
+          Category.findAll().then((categories) => {
+            console.log(result.next)
+      response.render("page", {result, categories});
+      });
+
+
+  });
+});
 
 
 
