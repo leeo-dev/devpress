@@ -3,12 +3,23 @@ const connection = require("./database/database");
 const server = express();
 const categoriesController = require("./categories/CategoriesController");
 const articlesController = require("./articles/ArticlesController");
+const usersController = require("./users/UserController");
+const session = require("express-session");
 
 const Article = require("./articles/Article");
 const Category = require("./categories/Category");
+const User = require("./users/User");
+
 
 //View Engine
 server.set('view engine', 'ejs');
+//Sessions
+server.use(session({
+  secret: "cw2e3f1wef",
+  cookie: {maxAge: 30000}
+}));
+
+
 server.use(express.static('public'));
 server.use(express.urlencoded({ extended: false }));
 server.use(express.json());
@@ -23,6 +34,7 @@ connection.authenticate().then(() => {
 
 server.use("/", categoriesController);
 server.use("/", articlesController);
+server.use("/", usersController);
 
 server.get("/", (request, response) => {
   Article.findAll({ order: [['createdAt', 'DESC']], limit: 4 }).then((articles) => {
@@ -76,6 +88,8 @@ server.get("/categoria/:slug", (request, response) => {
     }
   });
 });
+
+
 
 server.listen(3000, () => {
   console.log("Server is running");
