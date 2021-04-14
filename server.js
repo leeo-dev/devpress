@@ -6,6 +6,7 @@ const articlesController = require("./articles/ArticlesController");
 const usersController = require("./users/UserController");
 const session = require("express-session");
 
+
 const Article = require("./articles/Article");
 const Category = require("./categories/Category");
 const User = require("./users/User");
@@ -15,7 +16,9 @@ const User = require("./users/User");
 server.set('view engine', 'ejs');
 //Sessions
 server.use(session({
-  secret: "cw2e3f1wef",
+  secret: "secret-key",
+  resave: false,
+  saveUninitialized: false,
   cookie: {maxAge: 30000}
 }));
 

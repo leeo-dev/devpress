@@ -2,8 +2,9 @@ const express = require("express");
 const router = express.Router();
 const User = require("./User");
 const bcrypt = require("bcryptjs");
+const autorization = require("../middlewares/autorization");
 
-router.get("/admin/users", (request, response)=>{
+router.get("/admin/users", autorization ,(request, response)=>{
   response.send("Página de Usuários");
 });
 
@@ -25,7 +26,7 @@ router.post("/authenticate", (request, response)=>{
           email: user.email
         }
 
-        response.json(request.session.user);
+        response.redirect("/admin/users");
       }else{
         response.redirect("/login");
       }
@@ -35,7 +36,7 @@ router.post("/authenticate", (request, response)=>{
   });
 });
 
-router.get("/admin/users/create", (request, response)=>{
+router.get("/admin/users/create", autorization ,(request, response)=>{
   response.render("admin/admin/create");
 });
 
@@ -53,6 +54,11 @@ router.post("/users/create", (request, response)=>{
     response.redirect("/admin/users");
   });
 
+});
+
+router.get("/logout", (request, response)=>{
+  request.session.user = undefined;
+  response.redirect("/");
 });
 
 module.exports = router;

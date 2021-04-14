@@ -2,9 +2,10 @@ const express = require("express");
 const router = express.Router();
 const Category = require("./Category");
 const slugify = require("slugify");
-const { request } = require("express");
 
-router.get("/admin/categories/new", (request, response) => {
+const autorization = require("../middlewares/autorization");
+
+router.get("/admin/categories/new",autorization ,(request, response) => {
   response.render("admin/categories/new");
 });
 
@@ -20,7 +21,7 @@ router.post("/admin/categories/save", (request, response) => {
   }
 });
 
-router.get("/admin/categories", (request, response) => {
+router.get("/admin/categories",autorization ,(request, response) => {
   Category.findAll().then((categories) => {
     response.render("admin/categories/index", { categories });
   });
@@ -42,7 +43,7 @@ router.post("/categories/delete", (request, response) => {
 });
 
 
-router.get("/admin/categories/edit/:id", (request, response) => {
+router.get("/admin/categories/edit/:id",autorization ,(request, response) => {
   let id = request.params.id;
   Category.findByPk(id).then((category) => {
     if (category != undefined && !isNaN(id)) {
